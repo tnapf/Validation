@@ -1,0 +1,35 @@
+{
+    "name": "tnapf/validation",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Tnapf\\Validation\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Robert Snedeker",
+            "email": "rsnedeker20@gmail.com"
+        }
+    ],
+    "require": {
+        "tnapf/jsonmapper": "^v1.4.0",
+        "friendsofphp/php-cs-fixer": "^3.16"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.34"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/pest",
+        "fix": "php-cs-fixer fix --using-cache=no",
+        "fix:dry": "php-cs-fixer fix --using-cache=no --diff --dry-run"
+    }
+}
