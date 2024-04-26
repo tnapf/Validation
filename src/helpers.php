@@ -47,9 +47,11 @@ function validateModel(object|string $model, array $data): array
         $model = new $model();
     }
 
-    $properties = (new ReflectionClass($model))->getProperties();
+    $reflection = (new ReflectionClass($model));
+    $properties = $reflection->getProperties();
 
     $errors = [];
+    $transferKey = (count($reflection->getAttributes(SnakeToCamelCase::class, ReflectionAttribute::IS_INSTANCEOF)) > 0);
 
     foreach ($properties as $property) {
         $validators = $property->getAttributes(Validator::class, ReflectionAttribute::IS_INSTANCEOF);
@@ -57,7 +59,9 @@ function validateModel(object|string $model, array $data): array
         foreach ($validators as $validator) {
             $validator = $validator->newInstance();
             /** @var Validator $validator */
-            $key = camelCaseToSlugFormat($property->getName());
+            $key = $transferKey ?
+                camelCaseToSlugFormat($property->getName()) :
+                $property->getName();
             $value = is_object($model) && isset($model->{$property->getName()}) ? $model->{$property->getName()} : $data[$key] ?? null;
 
             try {
