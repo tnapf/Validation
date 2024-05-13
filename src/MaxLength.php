@@ -21,7 +21,11 @@ class MaxLength extends Validator
      * @param string $value
      */
     public function validate(mixed $value, callable $fail): void
-    {
+    {        
+        if (empty($value)) {
+            return;
+        }
+        
         if (mb_strlen($value) > $this->max) {
             $fail($this->message);
         }
